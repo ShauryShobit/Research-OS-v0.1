@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  neo4j:
+    image: neo4j:5.12.0-community
+    container_name: researchos_graph
+    ports:
+      - "7474:7474" # HTTP Dashboard
+      - "7687:7687" # Bolt Protocol (Sync Port)
+    environment:
+      - NEO4J_AUTH=neo4j/researchospassword
+    volumes:
+      - neo4j_data:/data
+
+  qdrant:
+    image: qdrant/qdrant:v1.7.0
+    container_name: researchos_vector
+    ports:
+      - "6333:6333" # HTTP API
+      - "6343:6343" # gRPC API
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes:
+  neo4j_data:
+  qdrant_data:
